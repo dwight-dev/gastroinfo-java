@@ -21,8 +21,9 @@ public class HelloController {
     @GetMapping("/")
     public String hello(Model model) {
 
-        model.addAttribute("date", LocalDate.now());
-        List<Map<String, Object>> offers = jdbc.queryForList("select offer as description, price, name, address, phone, zone from offers join places on offers.place_id = places.id");
+        LocalDate today = LocalDate.now();
+        model.addAttribute("date", today);
+        List<Map<String, Object>> offers = jdbc.queryForList("select offer as description, price, name, address, phone, zone from offers join places on offers.place_id = places.id where date = ?", today);
         Map<String, List<Map<String, Object>>> zones = new HashMap<>();
         for (Map<String, Object> offer : offers) {
             zones.computeIfAbsent((String)offer.get("zone"), (k) -> new ArrayList<>()).add(offer);
