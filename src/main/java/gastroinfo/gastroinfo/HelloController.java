@@ -19,9 +19,8 @@ public class HelloController {
     @GetMapping("/")
     public String hello(Model model) {
 
-        List<Map<String, Object>> maps = jdbc.queryForList("select offer as description, price, place_id as place from offers");
         model.addAttribute("date", LocalDate.now());
-        maps.forEach((m) -> m.put("place",  Map.of("name", "Some restaurant", "address", "ul. Piotrkowska 123", "phone", "+48123456789")));
+        List<Map<String, Object>> maps = jdbc.queryForList("select offer as description, price, name, address, phone from offers join places on offers.place_id = places.id");
         Map<String, Object> zone = Map.of("name", "Some zone", "offers", maps);
         model.addAttribute("zones", List.of(zone, zone, zone));
         return "hello";

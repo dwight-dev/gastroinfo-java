@@ -140,8 +140,8 @@
         <div class="dania2" th:each="offer: ${zone.offers}">
             <table class="table">
                 <tr>
-                    <th class="tooltipaa"><span th:text="${offer.place.name}">Example restaurant</span> <span class="adres"><br/><span th:text="${offer.place.address}">123 Some Street</span> <a
-                            th:href="'tel:'+${offer.place.phone}" th:text="${offer.place.phone}">123-123-123</a></span></th>
+                    <th class="tooltipaa"><span th:text="${offer.name}">Example restaurant</span> <span class="adres"><br/><span th:text="${offer.address}">123 Some Street</span> <a
+                            th:href="'tel:'+${offer.phone}" th:text="${offer.phone}">123-123-123</a></span></th>
                     <th style="text-align: right;"><span th:text="${offer.price}">99.99</span>&nbsp;PLN</th>
                 </tr>
                 <tr>
