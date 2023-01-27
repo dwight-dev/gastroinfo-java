@@ -7,6 +7,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -20,9 +22,12 @@ public class HelloController {
     public String hello(Model model) {
 
         model.addAttribute("date", LocalDate.now());
-        List<Map<String, Object>> maps = jdbc.queryForList("select offer as description, price, name, address, phone from offers join places on offers.place_id = places.id");
-        Map<String, Object> zone = Map.of("name", "Some zone", "offers", maps);
-        model.addAttribute("zones", List.of(zone, zone, zone));
+        List<Map<String, Object>> offers = jdbc.queryForList("select offer as description, price, name, address, phone, zone from offers join places on offers.place_id = places.id");
+        Map<String, List<Map<String, Object>>> zones = new HashMap<>();
+        for (Map<String, Object> offer : offers) {
+            zones.computeIfAbsent((String)offer.get("zone"), (k) -> new ArrayList<>()).add(offer);
+        }
+        model.addAttribute("zones", zones.entrySet().stream().map((e) -> Map.of("name", e.getKey(), "offers", e.getValue())));
         return "hello";
     }
 }
