@@ -1,14 +1,16 @@
 create table places
 (
-    id       bigserial
+    id                 bigserial
         constraint places_pk
             primary key,
-    name     text not null,
-    zone     text,
-    address  text,
-    phone    text,
-    username text,
-    password text
+    name               text not null,
+    zone               text,
+    address            text,
+    phone              text,
+    username           text,
+    password           text,
+    lunch_served_from  time,
+    lunch_served_until time
 );
 
 
