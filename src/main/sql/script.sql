@@ -1,4 +1,4 @@
-create table places
+create table public.places
 (
     id                 bigserial
         constraint places_pk
@@ -10,11 +10,12 @@ create table places
     username           text,
     password           text,
     lunch_served_from  time,
-    lunch_served_until time
+    lunch_served_until time,
+    lunch_delivery     boolean
 );
 
 
-create table offers
+create table public.offers
 (
     id       bigserial
         constraint offers_pk

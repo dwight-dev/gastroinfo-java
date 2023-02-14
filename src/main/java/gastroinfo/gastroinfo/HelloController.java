@@ -25,7 +25,18 @@ public class HelloController {
             date = LocalDate.now();
         }
         model.addAttribute("date", date);
-        List<Map<String, Object>> offers = jdbc.queryForList("select offer as description, price, name, address, phone, zone, lunch_served_from, lunch_served_until from offers join places on offers.place_id = places.id where date = ?", date);
+        List<Map<String, Object>> offers = jdbc.queryForList("""
+                        select
+                        offer as description,
+                        price,
+                        name,
+                        address,
+                        phone,
+                        zone,
+                        lunch_served_from,
+                        lunch_served_until,
+                        lunch_delivery
+                        from offers join places on offers.place_id = places.id where date = ?""", date);
         Map<String, List<Map<String, Object>>> zones = new HashMap<>();
         for (Map<String, Object> offer : offers) {
             zones.computeIfAbsent((String) offer.get("zone"), (k) -> new ArrayList<>()).add(offer);

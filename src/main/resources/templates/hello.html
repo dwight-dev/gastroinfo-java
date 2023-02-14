@@ -149,6 +149,7 @@
                             <span th:if="${offer.lunch_served_from ne null and offer.lunch_served_until ne null}">Godziny serwowania lunchy:
                                 <span th:text="${#dates.format(offer.lunch_served_from, 'HH:mm')+ '-' + #dates.format(offer.lunch_served_until, 'HH:mm')}">11:00-16:00</span>
                             </span>
+                            Dostawa: <span th:text="${offer.lunch_delivery == null ? '?' : (offer.lunch_delivery ? 'Tak' : 'Nie')}">Tak</span>
                         </span>
                     </th>
                     <th style="text-align: right;"><span th:text="${offer.price}">99.99</span>&nbsp;PLN</th>
