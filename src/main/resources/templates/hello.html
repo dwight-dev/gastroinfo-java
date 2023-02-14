@@ -28,8 +28,8 @@
             text-align: center;
             opacity: 1;
             padding: 20px;
-            margin: 0px;
-            padding-bottom: 0px;
+            margin: 0;
+            padding-bottom: 0;
         }
 
         h5 {
@@ -89,38 +89,15 @@
             font-size: large;
         }
 
-        .tooltipaa .tooltiptext {
-            visibility: hidden;
-
-            background-color: rgba(255, 255, 255, 0.9);
-
-            text-align: center;
-            border-radius: 6px;
-            padding: 20px;
-
-            /* Position the tooltip */
-            position: fixed;
-            z-index: 1;
-
-            border-radius: 200px;
-            height: 400px;
-            width: 400px;
-        }
-
-        .tooltipaa .adres {
+        .restaurant .details {
             display: none;
         }
 
-        .tooltipaa:hover .adres {
+        .restaurant:hover .details {
             display: inline;
         }
 
-        /*.tooltipaa:hover .tooltiptext {*/
-        /*visibility: visible;*/
-        /*}*/
-
-
-        .adres {
+        .details {
             font-size: small;
             font-weight: normal;
         }
@@ -140,9 +117,9 @@
         <div class="dania2" th:each="offer: ${zone.offers}">
             <table class="table">
                 <tr>
-                    <th class="tooltipaa">
+                    <th class="restaurant">
                         <span th:text="${offer.name}">Example restaurant</span>
-                        <span class="adres">
+                        <span class="details">
                             <br/>
                             <span th:text="${offer.address}">123 Some Street</span>
                             <a th:href="'tel:'+${offer.phone}" th:text="${offer.phone}">123-123-123</a>
