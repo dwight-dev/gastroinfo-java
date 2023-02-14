@@ -141,7 +141,7 @@
             <table class="table">
                 <tr>
                     <th class="tooltipaa"><span th:text="${offer.name}">Example restaurant</span> <span class="adres"><br/><span th:text="${offer.address}">123 Some Street</span> <a
-                            th:href="'tel:'+${offer.phone}" th:text="${offer.phone}">123-123-123</a> Godziny serwowania lunchy: <span th:text="${offer.lunch_served_from + '-' + offer.lunch_served_until}"></span></span> </th>
+                            th:href="'tel:'+${offer.phone}" th:text="${offer.phone}">123-123-123</a> Godziny serwowania lunchy: <span th:text="${#dates.format(offer.lunch_served_from, 'HH:mm')+ '-' + #dates.format(offer.lunch_served_until, 'HH:mm')}"></span></span> </th>
                     <th style="text-align: right;"><span th:text="${offer.price}">99.99</span>&nbsp;PLN</th>
                 </tr>
                 <tr>
