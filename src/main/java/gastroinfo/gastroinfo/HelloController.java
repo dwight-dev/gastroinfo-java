@@ -28,8 +28,6 @@ public class HelloController {
     @GetMapping( {"/lunches/{town}", "/lunches", "/lunches/"})
     public String lunches(Model model, LocalDate date, @PathVariable(required = false) String town) {
 
-        System.out.println(town);
-
         if (date == null) {
             date = LocalDate.now();
         }
@@ -52,5 +50,16 @@ public class HelloController {
         }
         model.addAttribute("zones", zones.entrySet().stream().map((e) -> Map.of("name", e.getKey(), "offers", e.getValue())));
         return "hello";
+    }
+
+    @GetMapping( "/rankings")
+    public String rankings(Model model) {
+
+        var restaurants = jdbc.queryForList("select * from restaurants");
+        var rankings = jdbc.queryForList("select * from rankings");
+
+        model.addAttribute("restaurants", restaurants);
+
+        return "rankings";
     }
 }
