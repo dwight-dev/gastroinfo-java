@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -19,7 +20,15 @@ public class HelloController {
     private final JdbcTemplate jdbc;
 
     @GetMapping("/")
-    public String hello(Model model, LocalDate date) {
+    public String home() {
+        return "redirect:/lunches/lodz";
+    }
+
+
+    @GetMapping( {"/lunches/{town}", "/lunches", "/lunches/"})
+    public String lunches(Model model, LocalDate date, @PathVariable(required = false) String town) {
+
+        System.out.println(town);
 
         if (date == null) {
             date = LocalDate.now();
