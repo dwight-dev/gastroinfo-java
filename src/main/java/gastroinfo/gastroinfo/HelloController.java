@@ -25,7 +25,7 @@ public class HelloController {
     }
 
 
-    @GetMapping( {"/lunches/{town}", "/lunches", "/lunches/"})
+    @GetMapping({"/lunches/{town}", "/lunches", "/lunches/"})
     public String lunches(Model model, LocalDate date, @PathVariable(required = false) String town) {
 
         if (date == null) {
@@ -33,17 +33,17 @@ public class HelloController {
         }
         model.addAttribute("date", date);
         List<Map<String, Object>> offers = jdbc.queryForList("""
-                        select
-                        offer as description,
-                        price,
-                        name,
-                        address,
-                        phone,
-                        zone,
-                        lunch_served_from,
-                        lunch_served_until,
-                        lunch_delivery
-                        from offers join places on offers.place_id = places.id where date = ?""", date);
+                select
+                offer as description,
+                price,
+                name,
+                address,
+                phone,
+                zone,
+                lunch_served_from,
+                lunch_served_until,
+                lunch_delivery
+                from offers join places on offers.place_id = places.id where date = ?""", date);
         Map<String, List<Map<String, Object>>> zones = new HashMap<>();
         for (Map<String, Object> offer : offers) {
             zones.computeIfAbsent((String) offer.get("zone"), (k) -> new ArrayList<>()).add(offer);
@@ -52,13 +52,44 @@ public class HelloController {
         return "hello";
     }
 
-    @GetMapping( "/rankings")
+    @GetMapping("/rankings")
     public String rankings(Model model) {
 
         var restaurants = jdbc.queryForList("select * from restaurants");
         var rankings = jdbc.queryForList("select * from rankings");
 
+        for (var ranking : rankings) {
+            var ranking_restaurants = new ArrayList<>();
+            var ids = ((String) ranking.get("restaurants_ids")).split(",");
+            for (int i = 0; i < ids.length; i++) {
+                for (Map<String, Object> restaurant : restaurants) {
+                    if (ids[i].equals(restaurant.get("id") + "")) {
+
+                        List<Double> ratings = (List<Double>) restaurant.getOrDefault("ratings", new ArrayList<>());
+
+                        var restaurant_ranking = new HashMap<>(restaurant);
+                        var rating = 1.0 - (i) / (ids.length - 1.0);
+                        restaurant_ranking.put("place", String.format("%.3f", rating));
+                        ranking_restaurants.add(restaurant_ranking);
+                        ratings.add(rating);
+                        break;
+                    }
+                }
+            }
+            ranking.put("restaurants", ranking_restaurants);
+        }
+//        for restaurant in restaurants:
+//        if 'ratings' in restaurant:
+//        restaurant['average'] = "{:.3f}".format(sum(restaurant['ratings']) / len(restaurant['ratings']))
+//        restaurant['votes'] = len(restaurant['ratings'])
+//        else:
+//        restaurant['average'] = "--"
+//        restaurant['votes'] = 0
+//        restaurants.sort(key = lambda x:x['average'], reverse = True)
+//        return rankings,restaurants
+
         model.addAttribute("restaurants", restaurants);
+        model.addAttribute("rankings", rankings);
 
         return "rankings";
     }
