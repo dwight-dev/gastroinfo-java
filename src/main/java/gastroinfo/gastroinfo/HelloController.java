@@ -55,7 +55,7 @@ public class HelloController {
     @GetMapping("/rankings")
     public String rankings(Model model) {
 
-        var restaurants = jdbc.queryForList("select * from restaurants");
+        var restaurants = jdbc.queryForList("select * from places");
         var rankings = jdbc.queryForList("select * from rankings");
 
         for (var ranking : rankings) {
