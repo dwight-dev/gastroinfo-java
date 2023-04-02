@@ -40,7 +40,11 @@
     <h3 th:text="${ranking['name']}">{{ ranking['name'] }}</h3>
     <table class="table">
         <tr><th>Miejsce</th><th>Nazwa</th><th>Punktacja</th></tr>
-        <tr th:each="restaurant, loop: ${ranking.restaurants}"><td th:text="${loop.count}">{{loop.index}}</td><th th:text="${restaurant['name']}">{{ restaurant['name'] }}</th><td th:text="${restaurant['place']}">{{ restaurant['place'] }}</td></tr>
+        <tr th:each="restaurant, loop: ${ranking.restaurants}">
+            <td th:text="${loop.count}">{{loop.index}}</td>
+            <th ><a href="#" th:href="'/place/' + ${restaurant.id}" th:text="${restaurant['name']}">Kolorowa</a></th>
+            <td th:text="${restaurant['place']}">{{ restaurant['place'] }}</td>
+        </tr>
     </table>
     </div>
 
@@ -51,7 +55,7 @@
         <tr><th>Miejsce</th><th>Nazwa</th><th>Punktacja</th><th>Ilość ocen</th></tr>
         <tr th:each="restaurant, loop: ${restaurants}">
             <th th:text="${loop.count}">1</th>
-            <th th:text="${restaurant.name}">{{ restaurant['name'] }}</th>
+            <th ><a href="#" th:href="'/place/' + ${restaurant.id}" th:text="${restaurant['name']}">Kolorowa</a></th>
             <td th:text=" ${restaurant.votes} > 0 ? ${#numbers.formatDecimal(restaurant.average, 1, 3, 'POINT')} : '---'">{{ restaurant['average'] }}</td>
             <td th:text="${restaurant.votes}">({{ restaurant['votes'] }})<td>
         </tr>
