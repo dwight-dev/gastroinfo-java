@@ -89,11 +89,19 @@ public class HelloController {
             }
         }
 
-        restaurants.sort((a, b) -> (int) ((((double) b.get("average")) - ((double) a.get("average")))*10000));
+        restaurants.sort((a, b) -> (int) ((((double) b.get("average")) - ((double) a.get("average"))) * 10000));
 
         model.addAttribute("restaurants", restaurants);
         model.addAttribute("rankings", rankings);
 
         return "rankings";
+    }
+
+    @GetMapping("/place/{id}")
+    public String rankings(Model model, @PathVariable int id) {
+        var place = jdbc.queryForMap("select * from places where id = ?", id);
+        place.put("description", "Super knajpa!!!!!");
+        model.addAttribute("place", place);
+        return "place";
     }
 }
