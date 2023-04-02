@@ -118,7 +118,7 @@
             <table class="table">
                 <tr>
                     <th class="restaurant">
-                        <span th:text="${offer.name}">Example restaurant</span>
+                        <span><a href="#" th:href="'/place/' + ${offer.place_id}" th:text="${offer.name}">Kolorowa</a></span>
                         <span class="details">
                             <br/>
                             <span th:text="${offer.address}">123 Some Street</span>

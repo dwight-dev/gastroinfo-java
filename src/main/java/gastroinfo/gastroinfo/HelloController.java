@@ -42,7 +42,8 @@ public class HelloController {
                 zone,
                 lunch_served_from,
                 lunch_served_until,
-                lunch_delivery
+                lunch_delivery,
+                offers.place_id
                 from offers join places on offers.place_id = places.id where date = ?""", date);
         Map<String, List<Map<String, Object>>> zones = new HashMap<>();
         for (Map<String, Object> offer : offers) {
