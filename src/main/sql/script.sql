@@ -33,4 +33,8 @@ create table if not exists rankings
     restaurants_ids text
 );
 
+alter table places
+    add description text;
+
+
 

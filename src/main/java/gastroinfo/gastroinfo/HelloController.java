@@ -101,7 +101,6 @@ public class HelloController {
     @GetMapping("/place/{id}")
     public String rankings(Model model, @PathVariable int id) {
         var place = jdbc.queryForMap("select * from places where id = ?", id);
-        place.put("description", "Super knajpa!!!!!");
         model.addAttribute("place", place);
         return "place";
     }
