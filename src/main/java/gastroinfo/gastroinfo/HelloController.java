@@ -65,8 +65,7 @@ public class HelloController {
                 for (Map<String, Object> restaurant : restaurants) {
                     if (ids[i].equals(restaurant.get("id") + "")) {
 
-                        List<Double> ratings = (List<Double>) restaurant.getOrDefault("ratings", new ArrayList<>());
-
+                        List<Double> ratings = (List<Double>) restaurant.computeIfAbsent("ratings", (k) -> new ArrayList<Double>());
                         var restaurant_ranking = new HashMap<>(restaurant);
                         var rating = 1.0 - (i) / (ids.length - 1.0);
                         restaurant_ranking.put("place", String.format("%.3f", rating));
@@ -78,15 +77,19 @@ public class HelloController {
             }
             ranking.put("restaurants", ranking_restaurants);
         }
-//        for restaurant in restaurants:
-//        if 'ratings' in restaurant:
-//        restaurant['average'] = "{:.3f}".format(sum(restaurant['ratings']) / len(restaurant['ratings']))
-//        restaurant['votes'] = len(restaurant['ratings'])
-//        else:
-//        restaurant['average'] = "--"
-//        restaurant['votes'] = 0
-//        restaurants.sort(key = lambda x:x['average'], reverse = True)
-//        return rankings,restaurants
+        for (var restaurant : restaurants) {
+            if (restaurant.containsKey("ratings")) {
+                List<Double> ratings = (List) restaurant.get("ratings");
+                double average = ratings.stream().mapToDouble(a -> a).average().getAsDouble();
+                restaurant.put("average", average);
+                restaurant.put("votes", ratings.size());
+            } else {
+                restaurant.put("average", 0d);
+                restaurant.put("votes", 0);
+            }
+        }
+
+        restaurants.sort((a, b) -> (int) ((((double) b.get("average")) - ((double) a.get("average")))*10000));
 
         model.addAttribute("restaurants", restaurants);
         model.addAttribute("rankings", rankings);
